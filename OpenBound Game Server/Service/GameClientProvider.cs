@@ -28,7 +28,7 @@ using System.Linq;
 
 namespace OpenBound_Game_Server.Service
 {
-    class GameClientProvider
+    static class GameClientProvider
     {
         #region Connection
         public static bool GameServerPlayerAccessRequest(string param, Dictionary<int, object> paramDictionary, ExtendedConcurrentQueue<byte[]> provider)
@@ -47,6 +47,7 @@ namespace OpenBound_Game_Server.Service
                             return false;
                         else
                         {
+                            #warning Vulnerable code
                             //Retrieve Player from database since player's connection request cant be trusted
                             //Remember that I cant trust player ID either
 
@@ -67,7 +68,6 @@ namespace OpenBound_Game_Server.Service
                             paramDictionary.Add(NetworkObjectParameters.PlayerSession, pS);
                             GameServerObjects.Instance.PlayerHashtable.Add(player.ID, pS);
                             NetworkObjectParameters.GameServerInformation.ConnectedClients++;
-                            //GameServerObjects.lobbyServerCSP.RequestQueue.Enqueue(NetworkObjectParameters.GameServerRegisterRequest, NetworkObjectParameters.GameServerInformation);
                         }
                     }
                 }
@@ -109,7 +109,7 @@ namespace OpenBound_Game_Server.Service
 
                 lock (GameServerObjects.Instance.RoomMetadataSortedList)
                 {
-                    //Look for the first available room id;
+                    //Look for the first available room id
                     room.ID = 1;
                     while (GameServerObjects.Instance.RoomMetadataSortedList.ContainsKey(room.ID)) room.ID++;
 
@@ -177,13 +177,13 @@ namespace OpenBound_Game_Server.Service
 
                     lock (room)
                     {
-                        List<Player> roomUnion = room.PlayerList;
+                        List<Player> roomUnion = room.PlayerList();
 
                         //if the room is full, refuse returning null
                         if (room.IsPlaying || room.NumberOfPlayers == (int)room.Size) return null;
 
                         //insert the player on the lowest numbered team
-                        if (room.TeamASafe.Count() <= room.TeamBSafe.Count())
+                        if (room.TeamASafe().Count <= room.TeamBSafe().Count)
                             room.AddA(playerSession.Player);
                         else
                             room.AddB(playerSession.Player);
@@ -240,7 +240,7 @@ namespace OpenBound_Game_Server.Service
                             return true;
                         }
 
-                        List<Player> roomUnion = room.PlayerList;
+                        List<Player> roomUnion = room.PlayerList();
 
                         if (player.PlayerRoomStatus == PlayerRoomStatus.Master)
                         {
@@ -279,7 +279,7 @@ namespace OpenBound_Game_Server.Service
                 lock (room)
                 {
                     playerSession.Player.PrimaryMobile = mobileType;
-                    BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshMetadata, room, room.PlayerList);
+                    BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshMetadata, room, room.PlayerList());
                 }
             }
             catch (Exception ex)
@@ -297,18 +297,18 @@ namespace OpenBound_Game_Server.Service
 
                 lock (room)
                 {
-                    List<Player> roomUnion = room.PlayerList;
+                    List<Player> roomUnion = room.PlayerList();
 
                     if (player.ID == room.RoomOwner.ID)
                     {
-                        int readyPlayers = roomUnion.Where((x) => x.PlayerRoomStatus == PlayerRoomStatus.Ready).Count();
+                        int readyPlayers = roomUnion.Count((x) => x.PlayerRoomStatus == PlayerRoomStatus.Ready);
 
 #if DEBUG
                         if (/*readyPlayers + 1 == room.NumberOfPlayers &&
-                            room.TeamA.Count() == room.TeamB.Count()*/true)
+                            room.TeamA.Count == room.TeamB.Count*/true)
 #else
                         if (readyPlayers + 1 == room.NumberOfPlayers &&
-                            room.TeamA.Count() == room.TeamB.Count())
+                            room.TeamA.Count == room.TeamB.Count)
 #endif
                         {
                             Console.WriteLine($" - Room ({room.ID} - {room.Name}) has started!");
@@ -370,7 +370,7 @@ namespace OpenBound_Game_Server.Service
                     }
 
                     //send an update for each member of the match with the current metadata
-                    BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshMetadata, room, room.PlayerList);
+                    BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshMetadata, room, room.PlayerList());
                 }
             }
             catch (Exception ex)
@@ -397,7 +397,7 @@ namespace OpenBound_Game_Server.Service
                     else room.Map = Map.GetMap(mapIndex);
 
                     //send an update for each member of the match with the current metadata
-                    BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshMetadata, room, room.PlayerList);
+                    BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshMetadata, room, room.PlayerList());
                 }
             }
             catch (Exception ex)
@@ -414,7 +414,7 @@ namespace OpenBound_Game_Server.Service
 
                 Console.WriteLine($"{playerSession.Player.ID} - {playerSession.Player.Nickname} is {loadingPercentage}%");
 
-                BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshLoadingPercentage, new KeyValuePair<int, int>(playerSession.Player.ID, loadingPercentage), playerSession.RoomMetadata.PlayerList);
+                BroadcastToPlayer(NetworkObjectParameters.GameServerRoomRefreshLoadingPercentage, new KeyValuePair<int, int>(playerSession.Player.ID, loadingPercentage), playerSession.RoomMetadata.PlayerList());
             }
             catch (Exception ex)
             {
@@ -452,7 +452,7 @@ namespace OpenBound_Game_Server.Service
         {
             lock (matchMetadata)
             {
-                List<Player> roomUnion = matchMetadata.PlayerList;
+                List<Player> roomUnion = matchMetadata.PlayerList();
 
                 if (roomUnion.Any((x) => x.PlayerLoadingStatus != PlayerRoomStatus.Ready)) return;
 
@@ -473,7 +473,7 @@ namespace OpenBound_Game_Server.Service
                     playerSession.Player.PlayerLoadingStatus = PlayerRoomStatus.NotReady;
                     playerSession.Player.PlayerNavigation = PlayerNavigation.InGame;
 
-                    List<Player> roomUnion = room.PlayerList;
+                    List<Player> roomUnion = room.PlayerList();
                     if (roomUnion.Any((x) => x.PlayerNavigation != PlayerNavigation.InGame)) return;
 
                     MatchManager mm = new MatchManager(room);
@@ -1015,7 +1015,7 @@ namespace OpenBound_Game_Server.Service
             {
                 room.VictoriousTeam = victoriousTeam;
                 room.IsPlaying = false;
-                room.PlayerList.ForEach((x) => x.PlayerNavigation = PlayerNavigation.InGameRoom);
+                room.PlayerList().ForEach((x) => x.PlayerNavigation = PlayerNavigation.InGameRoom);
                 /*save data on database*/
             }
 
@@ -1295,10 +1295,10 @@ namespace OpenBound_Game_Server.Service
         #region DEBUG
         private static void DebugMethod(PlayerSession playerSession)
         {
-            if (!playerSession.RoomMetadata.PlayerList.Contains(playerSession.RoomMetadata.RoomOwner))
+            if (!playerSession.RoomMetadata.PlayerList().Contains(playerSession.RoomMetadata.RoomOwner))
                 Console.WriteLine("\n\n NOT FOUND HIM! OWNER \n\n");
 
-            if (!playerSession.RoomMetadata.PlayerList.Contains(playerSession.Player))
+            if (!playerSession.RoomMetadata.PlayerList().Contains(playerSession.Player))
                 Console.WriteLine("\n\n NOT FOUND HIM! PLAYER \n\n");
         }
         #endregion

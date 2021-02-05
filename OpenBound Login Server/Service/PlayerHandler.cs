@@ -26,7 +26,7 @@ using OpenBound_Network_Object_Library.TCP.Entity;
 
 namespace OpenBound_Login_Server.Service
 {
-    class PlayerHandler
+    static class PlayerHandler
     {
         public static void StartListeningPlayerLoginAttempt(ExtendedConcurrentQueue<byte[]> provider, string param)
         {
@@ -100,7 +100,7 @@ namespace OpenBound_Login_Server.Service
         {
             try
             {
-                PlayerDTO deserializedAccount = ObjectWrapper.Deserialize<PlayerDTO>(param);
+                PlayerValidationModel deserializedAccount = ObjectWrapper.Deserialize<PlayerValidationModel>(param);
                 return new PlayerController().RegisterPlayer(deserializedAccount);
             }
             catch (Exception ex)

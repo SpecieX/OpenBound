@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace OpenBound_Game_Launcher.Helper
 {
-    public class Feedback
+    public static class Feedback
     {
         public static DialogResult CreateWarningMessageBox(string message, 
             string title = Language.PopupTitleWarning, MessageBoxButtons messageBoxButtons = MessageBoxButtons.OK)

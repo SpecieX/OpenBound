@@ -17,7 +17,7 @@ using OpenBound_Network_Object_Library.Models;
 
 namespace OpenBound_Lobby_Server.Common
 {
-    public class LobbyServerObjects
+    public static class LobbyServerObjects
     {
         public static List<ClientServiceProvider> ClientServiceProviderList;
         public static List<Player> RequestedLoginPlayers;

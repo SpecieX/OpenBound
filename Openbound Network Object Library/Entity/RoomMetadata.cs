@@ -102,14 +102,14 @@ namespace OpenBound_Network_Object_Library.Entity
         [JsonProperty("TA")] public List<Player> TeamA;
         [JsonProperty("TB")] public List<Player> TeamB;
 
-        [JsonIgnore] public List<Player> TeamASafe { get { lock (playerListMutex) { return TeamA.ToList(); } } }
-        [JsonIgnore] public List<Player> TeamBSafe { get { lock (playerListMutex) { return TeamB.ToList(); } } }
-        [JsonIgnore] public List<Player> PlayerList { get { lock (playerListMutex) { return TeamA.Union(TeamB).ToList(); } } }
-
         [JsonProperty("RO")] public Player RoomOwner;
 
         //Filtering Options
         [JsonProperty("PN")] public int PageNumber;
+
+        [JsonIgnore] public int NumberOfPlayers { get { lock (playerListMutex) { return TeamA.Count + TeamB.Count; } } }
+        [JsonIgnore] public bool HasPassword { get { return Password != ""; } }
+        [JsonIgnore] public bool IsFull { get { return NumberOfPlayers == (int)Size; } }
 
         public RoomMetadata(GameMode gameMode,
             TurnsToSuddenDeath turnsToSuddenDeath, MatchSuddenDeathType matchSuddenDeathType,
@@ -162,22 +162,25 @@ namespace OpenBound_Network_Object_Library.Entity
             }
         }
 
-        [JsonIgnore] public int NumberOfPlayers { get { lock (playerListMutex) { return TeamA.Count + TeamB.Count; } } }
-        [JsonIgnore] public bool HasPassword { get { return !(Password == ""); } }
-        [JsonIgnore] public bool IsFull { get { return NumberOfPlayers == (int)Size; } }
+
+        public List<Player> TeamASafe() { lock (playerListMutex) { return TeamA.ToList(); } }
+
+        public List<Player> TeamBSafe() { lock (playerListMutex) { return TeamB.ToList(); } }
+
+        public List<Player> PlayerList() { lock (playerListMutex) { return TeamA.Union(TeamB).ToList(); } }
 
         public void StartMatch()
         {
             VictoriousTeam = null;
             IsPlaying = true;
 
-            List<Player> pList = PlayerList;
+            List<Player> pList = PlayerList();
 
             //Saving Player
             OriginalTeamA = TeamA.ToList();
             OriginalTeamB = TeamB.ToList();
 
-            OriginalTeamSize = OriginalTeamA.Count() + OriginalTeamB.Count();
+            OriginalTeamSize = OriginalTeamA.Count + OriginalTeamB.Count;
 
             //Map
             if (Map.GameMap == GameMap.Random)
@@ -201,9 +204,9 @@ namespace OpenBound_Network_Object_Library.Entity
 
             List<int[]> spawnCoordinateList = Map.SpawnPoints.ToList();
 
-            PlayerList.ForEach((x) =>
+            pList.ForEach((x) =>
             {
-                int randomizedIndex = NetworkObjectParameters.Random.Next(0, spawnCoordinateList.Count());
+                int randomizedIndex = NetworkObjectParameters.Random.Next(0, spawnCoordinateList.Count);
 
                 SpawnPositions.Add(x.ID, spawnCoordinateList[randomizedIndex]);
                 spawnCoordinateList.RemoveAt(randomizedIndex);

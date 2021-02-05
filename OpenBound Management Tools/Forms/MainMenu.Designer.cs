@@ -171,7 +171,6 @@ namespace OpenBound_Management_Tools.Forms
             this.Controls.Add(this.groupBox1);
             this.Name = "MainMenu";
             this.Text = "MainMenu";
-            this.Load += new System.EventHandler(this.MainMenu_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenBound_Game_Launcher.Common
+﻿namespace OpenBound_Game_Launcher.Common
 {
-    public class Language
+    public static class Language
     {
         public const string PopupTitleWarning = "Warning";
         public const string PopupTitleInformation = "Information";

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace OpenBound_Management_Tools
 {
-    class Program
+    static class Program
     {
         // http://msdn.microsoft.com/en-us/library/ms681944(VS.85).aspx
         /// <summary>
@@ -43,7 +43,7 @@ namespace OpenBound_Management_Tools
         const int SW_SHOW = 5;
 
         private static IntPtr consolePointer;
-        public static AsynchronousAction AsynchronousAction;
+        private static AsynchronousAction asynchronousAction;
 
         public static void Main(string[] args)
         {
@@ -51,7 +51,7 @@ namespace OpenBound_Management_Tools
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AsynchronousAction = new AsynchronousAction();
+            asynchronousAction = new AsynchronousAction();
 
             Thread t = new Thread(() =>
             {
@@ -68,7 +68,7 @@ namespace OpenBound_Management_Tools
             while (t.IsAlive)
             {
                 Thread.Sleep(100);
-                AsynchronousAction.AsynchronousInvokeAndDestroy();
+                asynchronousAction.AsynchronousInvokeAndDestroy();
             }
         }
 

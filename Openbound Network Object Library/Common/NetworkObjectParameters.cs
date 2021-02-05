@@ -22,7 +22,7 @@ using System.IO;
 
 namespace OpenBound_Network_Object_Library.Common
 {
-    public class NetworkObjectParameters
+    public static class NetworkObjectParameters
     {
         //IsOnline expiration date
         public static readonly int GameServerLastOnlineExpirationInSeconds = 30;
@@ -126,9 +126,9 @@ namespace OpenBound_Network_Object_Library.Common
         public static readonly Random Random = new Random(RandomSeed);
 
         //Game Constants
-        public static List<MobileType> ImplementedMobileList = new List<MobileType>() { MobileType.Armor, MobileType.Bigfoot, MobileType.Dragon, MobileType.Ice, MobileType.Knight, MobileType.Lightning, MobileType.Mage, MobileType.Random, MobileType.RaonLauncher, MobileType.Trico, MobileType.Turtle };
-        public static List<WeatherType> ActiveWeatherEffectList = new List<WeatherType>() { WeatherType.Force, WeatherType.Tornado, WeatherType.Electricity, WeatherType.Weakness, WeatherType.Mirror, WeatherType.Random, WeatherType.Thor };
-        public static List<WeatherType> RandomizableWeatherEffectList = new List<WeatherType>() { WeatherType.Force, WeatherType.Tornado, WeatherType.Electricity, WeatherType.Weakness, WeatherType.Mirror };
+        public static readonly List<MobileType> ImplementedMobileList = new List<MobileType>() { MobileType.Armor, MobileType.Bigfoot, MobileType.Dragon, MobileType.Ice, MobileType.Knight, MobileType.Lightning, MobileType.Mage, MobileType.Random, MobileType.RaonLauncher, MobileType.Trico, MobileType.Turtle };
+        public static readonly List<WeatherType> ActiveWeatherEffectList = new List<WeatherType>() { WeatherType.Force, WeatherType.Tornado, WeatherType.Electricity, WeatherType.Weakness, WeatherType.Mirror, WeatherType.Random, WeatherType.Thor };
+        public static readonly List<WeatherType> RandomizableWeatherEffectList = new List<WeatherType>() { WeatherType.Force, WeatherType.Tornado, WeatherType.Electricity, WeatherType.Weakness, WeatherType.Mirror };
 
         //Game Constants - Weather
         public const int WeatherMinimumWindForce = 0;
@@ -150,11 +150,11 @@ namespace OpenBound_Network_Object_Library.Common
         public const int ChangeMapRight = -1;
 
         //Game Messages
-        public static uint ServerMessageColor       = Color.DarkOrange.PackedValue;
-        public static uint ServerMessageBorderColor = Color.Black.PackedValue;
+        public static readonly uint ServerMessageColor       = Color.DarkOrange.PackedValue;
+        public static readonly uint ServerMessageBorderColor = Color.Black.PackedValue;
 
-        public static uint GoldBonusMessageColor    = new Color(86, 156, 214).PackedValue;
-        public static uint GoldDecreaseMessageColor = Color.Red.PackedValue;
+        public static readonly uint GoldBonusMessageColor    = new Color(86, 156, 214).PackedValue;
+        public static readonly uint GoldDecreaseMessageColor = Color.Red.PackedValue;
 
         //Turn Timer
         public const int TimePerPlayerTurn = 30;
@@ -165,7 +165,7 @@ namespace OpenBound_Network_Object_Library.Common
         public const int PlayerAttributeMaximumPerLevel = 180;
         public const int PlayerAttributeMaximumPerCategory = 50;
 
-        public static Dictionary<int, PlayerRank> PlayerRankExperienceTable
+        public static readonly Dictionary<int, PlayerRank> PlayerRankExperienceTable
             = new Dictionary<int, PlayerRank>()
         {
             {     0, PlayerRank.Chick },        //  100
@@ -194,7 +194,7 @@ namespace OpenBound_Network_Object_Library.Common
             { 15200, PlayerRank.Dragon3 },      // 1100
         };
 
-        public static Dictionary<int, PlayerRank> ExtraPlayerRankExperienceTable
+        public static readonly Dictionary<int, PlayerRank> ExtraPlayerRankExperienceTable
             = new Dictionary<int, PlayerRank>()
         {
             { -1, PlayerRank.Champion1     }, // 2nd team in championship

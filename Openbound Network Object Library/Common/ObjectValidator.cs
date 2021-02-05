@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace OpenBound_Network_Object_Library.Common
 {
-    public class ObjectValidator
+    public static class ObjectValidator
     {
         public static bool ValidateString(string Param)
         {

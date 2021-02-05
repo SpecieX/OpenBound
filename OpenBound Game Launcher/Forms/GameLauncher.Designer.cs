@@ -233,7 +233,6 @@ namespace OpenBound_Game_Launcher.Forms
             this.Name = "GameLauncher";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "OpenBound Game Launcher";
-            this.Load += new System.EventHandler(this.GameLauncher_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

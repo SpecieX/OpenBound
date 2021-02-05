@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenBound_Network_Object_Library.ValidationModel
 {
-    public class PlayerDTO : ValidationModelBase
+    public class PlayerValidationModel : ValidationModelBase
     {
         [Required, MinLength(4), MaxLength(30), RegularExpression(@"[0-9]*[A-z ]+[0-9]*")]
         public string Nickname { get; set; }
@@ -15,10 +15,10 @@ namespace OpenBound_Network_Object_Library.ValidationModel
 
         public Gender Gender { get; set; }
 
-        [Required, MinLength(6), MaxLength(30), NotOrCharacter(ErrorMessage = Language.PlayerDTOPasswordErrorMessage)]
+        [Required, MinLength(6), MaxLength(30), NotOrCharacter(ErrorMessage = Language.PlayerValidationModelPasswordErrorMessage)]
         public string Password { get; set; }
 
-        [Required, Compare("Password"), Display(Name = Language.PlayerDTOPasswordConfirmationName)]
+        [Required, Compare("Password"), Display(Name = Language.PlayerValidationModelPasswordConfirmationName)]
         public string PasswordConfirmation { get; set; }
 
     }

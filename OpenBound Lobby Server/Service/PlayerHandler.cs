@@ -20,7 +20,7 @@ using OpenBound_Network_Object_Library.Models;
 
 namespace OpenBound_Lobby_Server.Service
 {
-    public class PlayerHandler
+    public static class PlayerHandler
     {
         public static Player GenerateUIDForPlayerLogin(string param)
         {
@@ -71,9 +71,10 @@ namespace OpenBound_Lobby_Server.Service
                     return true;
                 }
             }
-            catch (Exception) { }
-
-            return false;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static void DeleteRequestedLoginPlayer(Player Player)

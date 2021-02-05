@@ -22,7 +22,7 @@ using System.Linq;
 
 namespace OpenBound_Lobby_Server.Service
 {
-    class ServerInformationHandler
+    static class ServerInformationHandler
     {
         public static bool RefreshGameServerStatusRequest(string param, Dictionary<int, object> paramDictionary)
         {
@@ -82,7 +82,10 @@ namespace OpenBound_Lobby_Server.Service
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

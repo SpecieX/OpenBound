@@ -81,7 +81,7 @@ namespace OpenBound_Network_Object_Library.Database.Controller
         /// <summary>
         /// Register a new player (account) and if the registration was successful.
         /// </summary>
-        public Player RegisterPlayer(PlayerDTO playerDTO)
+        public Player RegisterPlayer(PlayerValidationModel playerDTO)
         {
             try
             {

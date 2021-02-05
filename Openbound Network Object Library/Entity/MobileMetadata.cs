@@ -422,7 +422,7 @@ namespace OpenBound_Network_Object_Library.Entity
                 case ShotType.S2: delay = DelayPreset.Shot2; break;
                 case ShotType.SS: delay = DelayPreset.SS; break;
                 default: return 0;
-            };
+            }
 
             return (int)(delay * (1 - player.AttackDelay / 100f));
         }

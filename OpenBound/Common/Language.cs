@@ -15,7 +15,7 @@ using System.Globalization;
 
 namespace OpenBound.Common
 {
-    public class Language
+    public static class Language
     {
         //Interface Components - Game Modes
         public const string GameModeSolo  = "Solo";

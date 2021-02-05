@@ -57,7 +57,8 @@ namespace OpenBound_Game_Launcher.Forms
             {
                 // Updated sucessfully. Launcher needs to close.
                 case DialogResult.OK:
-                    Close(DialogResult = DialogResult.OK);
+                    DialogResult = DialogResult.OK;
+                    Close(DialogResult);
                     return true;
                 // No need to update.
                 case DialogResult.No:
@@ -88,8 +89,6 @@ namespace OpenBound_Game_Launcher.Forms
         }
 
         #region Element Actions
-        private void GameLauncher_Load(object sender, EventArgs e) { }
-
         /// <summary>
         /// This method is called once every 100ms. TickAction brings all external
         /// inputs into the Window.Update thread, preventing any exceptions caused by

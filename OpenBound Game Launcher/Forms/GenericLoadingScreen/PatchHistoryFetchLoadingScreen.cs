@@ -12,7 +12,7 @@ namespace OpenBound_Game_Launcher.Forms.GenericLoadingScreen
 {
     public class PatchHistoryFetchLoadingScreen : LoadingMenu
     {
-        string latestPatchHistoryPath;
+        readonly string latestPatchHistoryPath;
 
         public PatchHistoryFetchLoadingScreen()
         {
@@ -56,19 +56,6 @@ namespace OpenBound_Game_Launcher.Forms.GenericLoadingScreen
                 MessageBox.Show(ex.Message);
                 Close(DialogResult.Cancel);
             };
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // PatchHistoryFetchLoadingScreen
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.ClientSize = new System.Drawing.Size(296, 91);
-            this.Name = "PatchHistoryFetchLoadingScreen";
-            this.ResumeLayout(false);
-
         }
     }
 }

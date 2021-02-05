@@ -20,7 +20,7 @@ namespace OpenBound_Network_Object_Library.Extension
         public static void SafeResize<T>(this T[] ArrayObject, int NewSize)
         {
             if (NewSize > ArrayObject.Count())
-                throw new Exception();
+                throw new AccessViolationException();
             Array.Resize(ref ArrayObject, NewSize);
         }
 

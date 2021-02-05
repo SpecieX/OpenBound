@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace OpenBound_Game_Launcher.Common
 {
-    public class Parameter
+    public static class Parameter
     {
         public static Player Player;
         public static GameClientSettingsInformation GameClientSettingsInformation;

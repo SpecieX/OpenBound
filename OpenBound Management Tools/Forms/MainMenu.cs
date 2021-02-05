@@ -23,8 +23,6 @@ namespace OpenBound_Management_Tools.Forms
             InitializeComponent();
         }
 
-        //PipelineHelper.ExecuteShellCommand(@$"docker-compose -f .\Docker\OpenBoundFetchServer.yml down");
-
         private static void PrintHeader(string title)
         {
             Console.WriteLine("\n\n---------------------");
@@ -81,6 +79,8 @@ namespace OpenBound_Management_Tools.Forms
             PipelineHelper.ExecuteShellCommand($"docker exec -it {Parameter.DEFAULT_DATABASE_SERVER_CONTAINER_NAME} /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P \"{Parameter.DEFAULT_DATABASE_SERVER_PASSWORD}\" -i \"/OpenBoundDatabase.sql\"");
             PipelineHelper.ExecuteShellCommand($"docker exec -it {Parameter.DEFAULT_DATABASE_SERVER_CONTAINER_NAME} rm /OpenBoundDatabase.sql");
 
+            DeleteFiles(files);
+
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 
@@ -123,7 +123,9 @@ namespace OpenBound_Management_Tools.Forms
 
             PipelineHelper.ExecuteShellCommand(@$"docker-compose -p=openbound -f .\DockerTemplates\FetchServer\OpenBoundFetchServer.yml build");
             PipelineHelper.ExecuteShellCommand(@$"docker-compose -p openbound -f .\DockerTemplates\FetchServer\OpenBoundFetchServer.yml up -d {containerName}");
-            
+
+            DeleteFiles(files);
+
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 
@@ -185,8 +187,7 @@ namespace OpenBound_Management_Tools.Forms
             PipelineHelper.ExecuteShellCommand($"docker cp \"{Directory.GetCurrentDirectory()}\\Config\\LoginServerServerConfig.json\" \"{containerName}:\\OpenBound Login Server\\Config\\LoginServerServerConfig.json\"");
             PipelineHelper.ExecuteShellCommand($"docker cp \"{Directory.GetCurrentDirectory()}\\Config\\DatabaseConfig.json\" \"{containerName}:\\OpenBound Login Server\\Config\\DatabaseConfig.json\"");
 
-            foreach (string file in files)
-                try { File.Delete(file); } catch { }
+            DeleteFiles(files);
 
             PipelineHelper.ExecuteShellCommand(@$"docker restart {containerName}");
 
@@ -253,8 +254,7 @@ namespace OpenBound_Management_Tools.Forms
             PipelineHelper.ExecuteShellCommand($"docker cp \"{Directory.GetCurrentDirectory()}\\Config\\LobbyServerServerConfig.json\" \"{containerName}:\\OpenBound Lobby Server\\Config\\LobbyServerServerConfig.json\"");
             PipelineHelper.ExecuteShellCommand($"docker cp \"{Directory.GetCurrentDirectory()}\\Config\\LobbyServerWhitelist.json\" \"{containerName}:\\OpenBound Lobby Server\\Config\\LobbyServerWhitelist.json\"");
 
-            foreach (string file in files)
-                try { File.Delete(file); } catch { }
+            DeleteFiles(files);
 
             PipelineHelper.ExecuteShellCommand(@$"docker restart {containerName}");
 
@@ -325,8 +325,7 @@ namespace OpenBound_Management_Tools.Forms
             PipelineHelper.ExecuteShellCommand($"docker cp \"{Directory.GetCurrentDirectory()}\\Config\\DatabaseConfig.json\" \"{containerName}:\\OpenBound Game Server\\Config\\DatabaseConfig.json\"");
             PipelineHelper.ExecuteShellCommand($"docker cp \"{Directory.GetCurrentDirectory()}\\Config\\GameServerServerConfig.json\" \"{containerName}:\\OpenBound Game Server\\Config\\GameServerServerConfig.json\"");
 
-            foreach (string file in files)
-                try { File.Delete(file); } catch { }
+            DeleteFiles(files);
 
             PipelineHelper.ExecuteShellCommand(@$"docker restart {containerName}");
 
@@ -338,7 +337,7 @@ namespace OpenBound_Management_Tools.Forms
 
         private void CreateGameUpdatePatch_Click(object sender, EventArgs e)
         {
-
+            //This button is not going to work for a while :(
         }
 
         private void UploadGameUpdatePatchesToAllContainers_Click(object sender, EventArgs e)
@@ -416,9 +415,19 @@ namespace OpenBound_Management_Tools.Forms
             return containerNames.ToList();
         }
 
-        private void MainMenu_Load(object sender, EventArgs e)
+        private void DeleteFiles(List<string> fileList)
         {
-
+            foreach (string file in fileList)
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch
+                {
+                    Console.WriteLine("Could not delete file: " + file);
+                }
+            }
         }
     }
 }

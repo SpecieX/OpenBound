@@ -34,7 +34,8 @@ namespace OpenBound_Network_Object_Library.Extension
 
             lock (List)
             {
-                for (; List.Count <= Index;) Thread.Sleep(100);
+                while (List.Count <= Index) { Thread.Sleep(100); }
+
                 variable = ObjectWrapper.ConvertByteArrayToObject<T>(List[Index]);
                 List.RemoveAt(Index);
             }
@@ -86,28 +87,28 @@ namespace OpenBound_Network_Object_Library.Extension
         public static T SafeDequeue<T>(this ConcurrentQueue<T> Queue)
         {
             T tmpValue;
-            for (; !Queue.TryDequeue(out tmpValue);) { Thread.Sleep(100); }
+            while (!Queue.TryDequeue(out tmpValue)) { Thread.Sleep(100); }
             return tmpValue;
         }
 
         public static T SafeDequeue<T>(this ConcurrentQueue<byte[]> Queue)
         {
             byte[] tmpValue;
-            for (; !Queue.TryDequeue(out tmpValue);) { Thread.Sleep(100); }
+            while (!Queue.TryDequeue(out tmpValue)) { Thread.Sleep(100); }
             return ObjectWrapper.ConvertByteArrayToObject<T>(tmpValue);
         }
 
         public static T SafePeek<T>(this ConcurrentQueue<T> Queue)
         {
             T tmpValue;
-            for (; !Queue.TryPeek(out tmpValue);) { Thread.Sleep(100); }
+            while (!Queue.TryPeek(out tmpValue)) { Thread.Sleep(100); }
             return tmpValue;
         }
 
         public static T SafePeek<T>(this ConcurrentQueue<byte[]> Queue)
         {
             byte[] tmpValue;
-            for (; !Queue.TryPeek(out tmpValue);) { Thread.Sleep(100); }
+            while (!Queue.TryPeek(out tmpValue)) { Thread.Sleep(100); }
             return ObjectWrapper.ConvertByteArrayToObject<T>(tmpValue);
         }
 

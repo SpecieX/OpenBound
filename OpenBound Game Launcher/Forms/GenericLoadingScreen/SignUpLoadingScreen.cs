@@ -11,19 +11,19 @@ namespace OpenBound_Game_Launcher.Forms.GenericLoadingScreen
 {
     public class SignUpLoadingScreen : LoadingMenu
     {
-        private PlayerDTO playerDTO;
-        private LauncherRequestManager launcherRequestManager;
+        private readonly PlayerValidationModel playerValidationModel;
+        private readonly LauncherRequestManager launcherRequestManager;
 
-        public SignUpLoadingScreen(PlayerDTO playerDTO)
+        public SignUpLoadingScreen(PlayerValidationModel playerValidationModel)
             : base()
         {
-            this.playerDTO = playerDTO;
+            this.playerValidationModel = playerValidationModel;
             launcherRequestManager = new LauncherRequestManager();
         }
 
         public new DialogResult ShowDialog()
         {
-            launcherRequestManager.PrepareRegistrationThread(this, playerDTO);
+            launcherRequestManager.PrepareRegistrationThread(this, playerValidationModel);
             return base.ShowDialog();
         }
 

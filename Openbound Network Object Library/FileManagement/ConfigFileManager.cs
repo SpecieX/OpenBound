@@ -38,10 +38,10 @@ namespace OpenBound_Network_Object_Library.FileManager
 
     public struct ConfigDatabaseInformation
     {
-        public string DatabaseAddress;// = ;
-        public string DatabaseName;// = "OpenBound";
-        public string DatabaseLogin;// = "OpenBound_admin";
-        public string DatabasePassword;// = "OpenBound";
+        public string DatabaseAddress;
+        public string DatabaseName;
+        public string DatabaseLogin;
+        public string DatabasePassword;
     }
 
     public struct ConfigLobbyServerWhitelist
@@ -93,7 +93,7 @@ namespace OpenBound_Network_Object_Library.FileManager
         public PatchHistory ClientVersionHistory;
     }
 
-    public class ConfigFileManager
+    public static class ConfigFileManager
     {
         const string errorMessage = " file does not exist. Open the server program again and it should appear in your server folder.";
 

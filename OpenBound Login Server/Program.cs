@@ -23,7 +23,7 @@ using OpenBound_Network_Object_Library.FileManager;
 
 namespace OpenBound_Login_Server
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenBound_Network_Object_Library.Common
+﻿namespace OpenBound_Network_Object_Library.Common
 {
-    public class Language
+    public static class Language
     {
-        public const string PlayerDTOPasswordErrorMessage = "The password contains invalid characters.";
-        public const string PlayerDTOPasswordConfirmationName = "Password confirmation";
+        public const string PlayerValidationModelPasswordErrorMessage = "The password contains invalid characters.";
+        public const string PlayerValidationModelPasswordConfirmationName = "Password confirmation";
 
         public const string ChannelWelcomeMessage1 = " Welcome to OpenBound (";
         public const string ChannelWelcomeMessage2 = ") - Channel ";

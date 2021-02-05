@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OpenBound_Network_Object_Library.Common
 {
-    public class FontAwesomeIconIndex
+    public static class FontAwesomeIconIndex
     {
         public const int SadTear              = 0xf5b4;
         public const int Star                 = 0xf005;

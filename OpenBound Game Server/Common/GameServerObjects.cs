@@ -31,9 +31,6 @@ namespace OpenBound_Game_Server.Common
             }
         }
 
-        public static ServerServiceProvider serverServiceProvider;
-        public static ClientServiceProvider lobbyServerCSP;
-
         public Hashtable PlayerHashtable { get; set; }
         public SortedList<int, RoomMetadata> RoomMetadataSortedList { get; set; }
 
@@ -62,7 +59,7 @@ namespace OpenBound_Game_Server.Common
 
         public void CreateRoom(RoomMetadata room)
         {
-            //Insert the room to the match metadata list;
+            //Insert the room to the match metadata list
             RoomMetadataSortedList.Add(room.ID, room);
 
             //Create and connect on the chat for the room

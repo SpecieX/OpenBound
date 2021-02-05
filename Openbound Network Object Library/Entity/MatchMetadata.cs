@@ -137,7 +137,7 @@ namespace OpenBound_Network_Object_Library.Entity
 
         private void RandomizeExtraWeather(WeatherMetadata weatherMetadata)
         {
-            weatherMetadata.ExtraWeather = NetworkObjectParameters.RandomizableWeatherEffectList[NetworkObjectParameters.Random.Next(0, NetworkObjectParameters.RandomizableWeatherEffectList.Count())];
+            weatherMetadata.ExtraWeather = NetworkObjectParameters.RandomizableWeatherEffectList[NetworkObjectParameters.Random.Next(0, NetworkObjectParameters.RandomizableWeatherEffectList.Count)];
         }
 
         private void CalculateRandomPosition(WeatherMetadata weatherMetadata)

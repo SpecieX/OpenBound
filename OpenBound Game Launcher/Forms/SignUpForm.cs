@@ -28,7 +28,7 @@ namespace OpenBound_Game_Launcher.Forms
             TickAction = new AsynchronousAction();
         }
 
-        private void RegisterAccount(PlayerDTO newPlayer)
+        private void RegisterAccount(PlayerValidationModel newPlayer)
         {
             SetEnableInterfaceElements(false);
             SignUpLoadingScreen suls = new SignUpLoadingScreen(newPlayer);
@@ -68,7 +68,7 @@ namespace OpenBound_Game_Launcher.Forms
 
         private void BtnRegister_Click(object sender, EventArgs e)
         {
-            PlayerDTO newPlayer = new PlayerDTO
+            PlayerValidationModel newPlayer = new PlayerValidationModel
             {
                 Email = txtEmail.Text,
                 Nickname = txtNickname.Text,
@@ -90,7 +90,7 @@ namespace OpenBound_Game_Launcher.Forms
 
         private void BtnRegisterDebug_Click(object sender, EventArgs e)
         {
-            RegisterAccount(new PlayerDTO()
+            RegisterAccount(new PlayerValidationModel()
             {
                 Nickname = "accountName",
                 Email = "account@name.com",

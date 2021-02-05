@@ -23,7 +23,7 @@ namespace OpenBound_Management_Tools.Helper
         }
     }
 
-    class PipelineHelper
+    static class PipelineHelper
     {
         public static IEnumerable<string> GenerateTemplateFiles(string templateFolder, string baseOutputPath, Dictionary<string, string> fileFields, string searchPattern = "*")
         {
@@ -72,7 +72,9 @@ namespace OpenBound_Management_Tools.Helper
                 process.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
                 process.Start();
 
-                Console.WriteLine(output = process.StandardOutput.ReadToEnd());
+                output = process.StandardOutput.ReadToEnd();
+
+                Console.WriteLine(output);
                 Console.ResetColor();
 
                 process.WaitForExit();

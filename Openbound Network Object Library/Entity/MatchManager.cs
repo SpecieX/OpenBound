@@ -27,9 +27,9 @@ namespace OpenBound_Network_Object_Library.Entity
 
         [JsonIgnore] private RoomMetadata roomMetadata;
 
-        [JsonIgnore] public List<Player> MatchUnion => roomMetadata.PlayerList;
-        [JsonIgnore] public List<Player> TeamA => roomMetadata.TeamASafe;
-        [JsonIgnore] public List<Player> TeamB => roomMetadata.TeamBSafe;
+        [JsonIgnore] public List<Player> MatchUnion => roomMetadata.PlayerList();
+        [JsonIgnore] public List<Player> TeamA => roomMetadata.TeamASafe();
+        [JsonIgnore] public List<Player> TeamB => roomMetadata.TeamBSafe();
 
         [JsonIgnore] public SyncMobile CurrentTurnOwner => SyncMobileList.First((x) => x.IsAlive);
 
@@ -41,8 +41,8 @@ namespace OpenBound_Network_Object_Library.Entity
         {
             this.roomMetadata = roomMetadata;
 
-            Queue<Player> sortedTeam1 = new Queue<Player>(roomMetadata.TeamASafe.OrderBy((x) => NetworkObjectParameters.Random.NextDouble()));
-            Queue<Player> sortedTeam2 = new Queue<Player>(roomMetadata.TeamBSafe.OrderBy((x) => NetworkObjectParameters.Random.NextDouble()));
+            Queue<Player> sortedTeam1 = new Queue<Player>(roomMetadata.TeamASafe().OrderBy((x) => NetworkObjectParameters.Random.NextDouble()));
+            Queue<Player> sortedTeam2 = new Queue<Player>(roomMetadata.TeamBSafe().OrderBy((x) => NetworkObjectParameters.Random.NextDouble()));
 
             //Randomizing Player Turn Order
             if (NetworkObjectParameters.Random.Next(2) == 0)

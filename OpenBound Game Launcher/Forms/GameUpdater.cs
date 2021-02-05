@@ -77,8 +77,6 @@ namespace OpenBound_Game_Launcher.Forms
             };
         }
 
-        private void GameUpdater_Load(object sender, EventArgs e) { }
-
         private void UpdateMenuButtons(MenuState menuState)
         {
             switch (menuState)
@@ -92,9 +90,7 @@ namespace OpenBound_Game_Launcher.Forms
                     updateButton.Enabled = false;
                     break;
                 case MenuState.Unpacking:
-                    abortButton.Enabled = false;
-                    updateButton.Enabled = false;
-                    break;
+                    goto case MenuState.Done;
                 case MenuState.Done:
                     abortButton.Enabled = false;
                     updateButton.Enabled = false;

@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace OpenBound_Game_Server
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -53,23 +53,22 @@ namespace OpenBound_Game_Server
             Console.WriteLine("Operation Log:");
             Console.WriteLine("----------------------\n");
 
-            GameServerObjects.serverServiceProvider = new ServerServiceProvider(
+            ServerServiceProvider serverServiceProvider = new ServerServiceProvider(
                 NetworkObjectParameters.GameServerInformation.ServerPort,
                 NetworkObjectParameters.GameServerBufferSize,
                 GameServiceHUB,
                 onDisconnect: OnDisconnect);
 
-            GameServerObjects.serverServiceProvider.StartOperation();
+            serverServiceProvider.StartOperation();
 
-            GameServerObjects.lobbyServerCSP = new ClientServiceProvider(
+            ClientServiceProvider lobbyServerCSP = new ClientServiceProvider(
                 NetworkObjectParameters.LobbyServerInformation.ServerLocalAddress,
                 NetworkObjectParameters.LobbyServerInformation.ServerPort,
                 NetworkObjectParameters.LobbyServerBufferSize,
                 LobbyServiceConsumerAction);
 
-            GameServerObjects.lobbyServerCSP.StartOperation();
-
-            GameServerObjects.lobbyServerCSP.RequestQueue.Enqueue(NetworkObjectParameters.GameServerRegisterRequest, NetworkObjectParameters.GameServerInformation);
+            lobbyServerCSP.StartOperation();
+            lobbyServerCSP.RequestQueue.Enqueue(NetworkObjectParameters.GameServerRegisterRequest, NetworkObjectParameters.GameServerInformation);
         }
 
         public static void LobbyServiceConsumerAction(ClientServiceProvider csp, string[] response)

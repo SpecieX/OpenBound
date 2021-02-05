@@ -214,7 +214,6 @@ namespace OpenBound_Game_Launcher.Forms
             this.Name = "GameUpdater";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game Updater";
-            this.Load += new System.EventHandler(this.GameUpdater_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.logGroupBox.ResumeLayout(false);

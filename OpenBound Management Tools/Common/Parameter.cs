@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OpenBound_Management_Tools.Common
 {
-    class Parameter
+    static class Parameter
     {
         public const int DEFAULT_FETCH_SERVER_CONTAINER_PORT = 8000;
         public const int DEFAULT_FETCH_SERVER_STARTING_PORT  = 8100;
@@ -42,10 +42,5 @@ namespace OpenBound_Management_Tools.Common
         public const string DEFAULT_LOGIN_SERVER_VOLUME_NAME     = "openbound_login_server_data";
         public const string DEFAULT_LOGIN_SERVER_CONTEXT         = "./";
         public const string DEFAULT_LOGIN_SERVER_DOCKERFILE_PATH = "OpenBound Login Server/LoginServer.Dockerfile";
-
-
-        
-
-
     }
 }

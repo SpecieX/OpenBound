@@ -10,9 +10,9 @@ namespace OpenBound_Game_Launcher.Forms.GenericLoadingScreen
 {
     public class LoginLoadingScreen : LoadingMenu
     {
-        string login, password;
+        readonly string login, password;
 
-        LauncherRequestManager launcherRequestManager;
+        readonly LauncherRequestManager launcherRequestManager;
 
         public LoginLoadingScreen(string login, string password)
             : base()

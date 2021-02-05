@@ -51,7 +51,7 @@ namespace OpenBound_Network_Object_Library.Entity.Text
     }
     #endregion
 
-    public class Message
+    public static class Message
     {
         #region TextBuilders
         public static string BuildGameServerChatGameList(int id) => NetworkObjectParameters.GameServerChatGameListIdentifier + id.ToString();
@@ -490,9 +490,6 @@ namespace OpenBound_Network_Object_Library.Entity.Text
             
             return cmL;
         }
-
-        // private static CustomMessage IGGBPestrigy         = CreateConsolasGoldBonusMessageText(Language.GoldRewardPrestigy);
-        // private static CustomMessage IGGDPrestigy
 
         //- Death
         public static List<CustomMessage> CreateDeathMessage(Player owner)

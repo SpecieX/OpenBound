@@ -41,7 +41,7 @@ namespace OpenBound_Game_Launcher.Forms
             {
                 if (kvp.Value.Exists((x) => x == resolution))
                     return kvp.Key;
-            };
+            }
 
             return Language.NoAspectRatioFound;
         }

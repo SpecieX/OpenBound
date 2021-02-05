@@ -21,16 +21,16 @@ namespace OpenBound_Game_Launcher.Launcher.Connection
 {
     public class LauncherRequestManager
     {
-        private Thread RequestThread;
+        private Thread requestThread;
 
         public LauncherRequestManager() { }
 
         #region Game Launcher
         public void PrepareLoginThread(LoginLoadingScreen loadingScreen, string nickname, string password)
         {
-            RequestThread = new Thread(() => Login(loadingScreen, nickname, password));
-            RequestThread.IsBackground = true;
-            RequestThread.Start();
+            requestThread = new Thread(() => Login(loadingScreen, nickname, password));
+            requestThread.IsBackground = true;
+            requestThread.Start();
         }
 
         public void Login(LoginLoadingScreen loadingScreen, string nickname, string password)
@@ -50,42 +50,7 @@ namespace OpenBound_Game_Launcher.Launcher.Connection
                     NetworkObjectParameters.LoginServerInformation.ServerPublicAddress,
                     NetworkObjectParameters.LoginServerInformation.ServerPort,
                     NetworkObjectParameters.LoginServerBufferSize,
-                    (serviceProvider, message) =>
-                    {
-                        if (message.Length == 2)
-                        {
-                            player = ObjectWrapper.Deserialize<Player>(message[1]);
-
-                            if (player == null)
-                            {
-                                waiting = true;
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            List<int> idList = ObjectWrapper.Deserialize<List<int>>(message[2]);
-
-                            if (idList == null)
-                            {
-                                waiting = true;
-                                return;
-                            }
-
-                            foreach (int i in idList)
-                            {
-                                player.PlayerAvatarMetadataList.Add(new PlayerAvatarMetadata()
-                                {
-                                    Player = player,
-                                    AvatarMetadata = new AvatarMetadata()
-                                    {
-                                        ID = i,
-                                        AvatarCategory = (AvatarCategory)int.Parse(message[1])
-                                    },
-                                });
-                            }
-                        }
-                    });
+                    (csp, mssg) => LoginConsumerAction(mssg, player, ref waiting));
 
                 csp.OnFailToEstabilishConnection += loadingScreen.OnFailToStablishConnection;
                 csp.StartOperation();
@@ -96,15 +61,16 @@ namespace OpenBound_Game_Launcher.Launcher.Connection
 
                 csp.StopOperation();
 
+                //Player not found
                 if (player == null || player.ID == 0)
                 {
                     loadingScreen.OnFailToFindPlayer();
                     return;
                 }
 
+                //Success
                 player.LoadOwnedAvatarDictionary();
 
-                //Success
                 Parameter.Player = player;
                 loadingScreen.Close(DialogResult.OK);
             }
@@ -113,17 +79,53 @@ namespace OpenBound_Game_Launcher.Launcher.Connection
                 Console.WriteLine($"Ex: {ex.Message}");
             }
         }
+
+        public void LoginConsumerAction(string[] message, Player player, ref bool waiting)
+        {
+            //If the message[] represernts a player
+            if (message.Length == 2)
+            {
+                player = ObjectWrapper.Deserialize<Player>(message[1]);
+
+                if (player == null)
+                    waiting = true;
+            }
+            else
+            {
+                //It is a collection of owned avatars
+                List<int> idList = ObjectWrapper.Deserialize<List<int>>(message[2]);
+
+                if (idList == null)
+                {
+                    waiting = true;
+                    return;
+                }
+
+                foreach (int i in idList)
+                {
+                    player.PlayerAvatarMetadataList.Add(new PlayerAvatarMetadata()
+                    {
+                        Player = player,
+                        AvatarMetadata = new AvatarMetadata()
+                        {
+                            ID = i,
+                            AvatarCategory = (AvatarCategory)int.Parse(message[1])
+                        },
+                    });
+                }
+            }
+        }
         #endregion
 
         #region Sign Up Form
-        public void PrepareRegistrationThread(SignUpLoadingScreen signUpLoadingForm, PlayerDTO account)
+        public void PrepareRegistrationThread(SignUpLoadingScreen signUpLoadingForm, PlayerValidationModel account)
         {
-            RequestThread = new Thread(() => Register(signUpLoadingForm, account));
-            RequestThread.IsBackground = true;
-            RequestThread.Start();
+            requestThread = new Thread(() => Register(signUpLoadingForm, account));
+            requestThread.IsBackground = true;
+            requestThread.Start();
         }
 
-        public void Register(SignUpLoadingScreen signUpLoadingScreen, PlayerDTO account)
+        public void Register(SignUpLoadingScreen signUpLoadingScreen, PlayerValidationModel account)
         {
             try
             {

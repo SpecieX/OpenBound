@@ -15,7 +15,7 @@ using System;
 
 namespace OpenBound_Game_Server.Service
 {
-    class LobbyServerHandler
+    static class LobbyServerHandler
     {
         public static void GameServerRegister(string param)
         {
